@@ -1,0 +1,17 @@
+@font-face {
+   font-display: swap;
+   font-family: 'Gilroy';
+   font-style: normal;
+   font-weight: 500;
+   src: url('./Gilroy-SemiBold.woff2');
+}
+body,
+button,
+input,
+textarea,
+select {
+   font-family: 'Gilroy', sans-serif;
+}
+body {
+   margin: 0;
+}
