@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/phone-input/static/css/main.3f58cf74.css",
+    "main.js": "/phone-input/static/js/main.09bbdf2c.js",
+    "static/media/Gilroy-Medium.woff2": "/phone-input/static/media/Gilroy-Medium.e2130cf5bbb93f1cc9e0.woff2",
+    "index.html": "/phone-input/index.html",
+    "main.3f58cf74.css.map": "/phone-input/static/css/main.3f58cf74.css.map",
+    "main.09bbdf2c.js.map": "/phone-input/static/js/main.09bbdf2c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3f58cf74.css",
+    "static/js/main.09bbdf2c.js"
+  ]
+}
