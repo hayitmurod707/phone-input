@@ -68,6 +68,31 @@ const StyledOption = styled.div`
       }
    }
 `;
+const StyledSingleValue = styled.div`
+   align-items: center;
+   display: flex;
+   & .name {
+      font-size: 16px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: calc(100% - 34px);
+   }
+   & .flag {
+      align-items: center;
+      display: flex;
+      height: 24px;
+      justify-content: center;
+      margin: 0 10px 0 0;
+      min-width: 24px;
+      width: 24px;
+      & img {
+         max-height: 24px;
+         max-width: 24px;
+      }
+   }
+`;
 const Menu = props => (
    <StyledMenu>
       <components.Menu {...props} className='react-select-menu'>
@@ -77,11 +102,11 @@ const Menu = props => (
 );
 const Option = ({
    children,
+   data,
    innerProps,
    isDisabled,
    isFocused,
    isSelected,
-   data,
 }) => {
    const ref = useRef(null);
    const code = (String(data?.iso) || '').toLowerCase();
@@ -121,8 +146,16 @@ const Option = ({
       </StyledOption>
    );
 };
+const SingleValue = ({ data }) => (
+   <StyledSingleValue>
+      <div className='flag'>
+         <Flag code={(String(data?.value) || '').toLowerCase()} />
+      </div>
+      <div className='name'>{data?.value}</div>
+   </StyledSingleValue>
+);
 const options = {
-   components: { IndicatorSeparator, Menu, Option },
+   components: { IndicatorSeparator, Menu, Option, SingleValue },
    isClearable: false,
    isMulti: false,
    isSearchable: false,
@@ -146,6 +179,7 @@ const options = {
          color: 'rgb(37, 42, 59)',
          cursor: 'pointer',
          height: 44,
+         justifyContent: 'flex-start',
          minHeight: 40,
          minWidth: 'initial',
          outline: 'none',
@@ -160,9 +194,15 @@ const options = {
       valueContainer: styles => ({
          ...styles,
          display: 'flex',
+         flex: 'initial',
          height: '100%',
-         padding: '12px 8px 12px 16px',
+         padding: '9px 4px 9px 12px',
          whiteSpace: 'nowrap',
+         input: {
+            height: 0,
+            opacity: 0,
+            width: 0,
+         },
       }),
       singleValue: (styles, { data }) => ({
          ...styles,
@@ -207,13 +247,17 @@ const options = {
          transform: `rotate(${selectProps?.menuIsOpen ? '180deg' : 0})`,
          transformOrigin: 'center',
          transition: '0.4s transform',
-         width: 24,
          svg: {
             width: 18,
          },
          ':hover': {
             color: '#000000',
          },
+      }),
+      placeholder: styles => ({
+         ...styles,
+         color: 'rgb(105, 111, 133)',
+         margin: 0,
       }),
    },
 };
@@ -227,13 +271,13 @@ const StyledElement = styled.div`
    & * {
       box-sizing: border-box;
    }
-   & input {
+   & .phone-input {
       border-color: rgb(217, 219, 225);
       border-radius: 0 8px 8px 0;
       border-style: solid;
       border-width: 1.5px 1.5px 1.5px 0;
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 17px;
+      font-weight: 500;
       height: 100%;
       outline: none;
       padding: 0 0 0 12px;
@@ -270,14 +314,14 @@ const PhoneInput = ({ value, onChange }) => {
    const [country, setCountry] = useState(null);
    const options = countries.map(country => ({
       ...country,
-      value: country?.iso,
       label: country?.name,
+      value: country?.iso,
    }));
    const option = country
       ? { ...country, value: country?.iso, label: country?.name }
       : null;
    useEffect(() => {
-      setCountry(countries[0]);
+      setCountry(undefined);
    }, []);
    return (
       <StyledElement ref={ref}>
@@ -289,6 +333,7 @@ const PhoneInput = ({ value, onChange }) => {
          />
          <ReactInputMask
             alwaysShowMask
+            className='phone-input'
             formatChars={{ '#': '[0-9]' }}
             mask={createMask(country)}
             maskChar=''
